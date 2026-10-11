@@ -1,0 +1,141 @@
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname SW-CORE
+!
+enable secret 5 <REMOVIDO>
+!
+!
+!
+no ip domain-lookup
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree portfast default
+spanning-tree extend system-id
+spanning-tree vlan 99 priority 0
+spanning-tree vlan 10,20,30 priority 24576
+!
+interface FastEthernet0/1
+ description **TRUNK p/ Switches de Acesso (SW-xM)**
+ switchport trunk native vlan 99
+ switchport mode trunk
+!
+interface FastEthernet0/2
+ description **TRUNK p/ Switches de Acesso (SW-xM)**
+ switchport trunk native vlan 99
+ switchport mode trunk
+!
+interface FastEthernet0/3
+ description **TRUNK p/ Switches de Acesso (SW-xM)**
+ switchport trunk native vlan 99
+ switchport mode trunk
+!
+interface FastEthernet0/4
+ description **TRUNK p/ Switches de Acesso (SW-xM)**
+ switchport trunk native vlan 99
+ switchport mode trunk
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+ description **ACESSO PCs Gerencia**
+ switchport access vlan 99
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/24
+ description **ACESSO PCs Gerencia**
+ switchport access vlan 99
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/1
+ description **TRUNK p/ R-MATRIZ (Router-on-a-Stick)**
+ switchport trunk native vlan 99
+ switchport mode trunk
+!
+interface GigabitEthernet0/2
+ description **ACESSO SRV-M (Servicos/Web)**
+ switchport access vlan 30
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan99
+ description **Gerenciamento do Switch (SVI)**
+ ip address 200.18.40.178 255.255.255.248
+!
+ip default-gateway 200.18.40.177
+!
+banner motd #
+************************************************************
+* *
+* ATENCAO: Este sistema e de uso restrito.               *
+* Acesso nao autorizado e proibido e sera monitorado.    *
+* *
+************************************************************
+#
+!
+!
+!
+line con 0
+ password <REMOVIDO>
+ login
+!
+line vty 0 4
+ password <REMOVIDO>
+ login
+line vty 5 15
+ password <REMOVIDO>
+ login
+!
+!
+!
+!
+end
+

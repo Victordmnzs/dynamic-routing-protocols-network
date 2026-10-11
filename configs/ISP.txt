@@ -1,0 +1,99 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname ISP
+!
+!
+!
+enable secret 5 <REMOVIDO>
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX152444UL-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description **Link p/ Cliente TechEdu (ASN 40)**
+ ip address 200.18.40.226 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router bgp 65000
+ bgp router-id 3.3.3.3
+ bgp log-neighbor-changes
+ no synchronization
+ neighbor 200.18.40.225 remote-as 40
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+banner motd #
+************************************************************
+* *
+* ATENCAO: Este sistema e de uso restrito.               *
+* Acesso nao autorizado e proibido e sera monitorado.    *
+* *
+************************************************************
+#
+!
+!
+!
+!
+line con 0
+ password <REMOVIDO>
+ login
+!
+line aux 0
+!
+line vty 0 4
+ password <REMOVIDO>
+ login
+line vty 5 15
+ password <REMOVIDO>
+ login
+!
+!
+!
+end
+

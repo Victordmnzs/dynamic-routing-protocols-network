@@ -1,0 +1,134 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname R-B
+!
+!
+!
+enable secret 5 <REMOVIDO>
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX15240YP3-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description **TRUNK p/ SW-1B**
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.10
+ description **Gateway VLAN 10 - Usuarios**
+ encapsulation dot1Q 10
+ ip address 200.18.40.97 255.255.255.224
+ ip helper-address 200.18.40.206
+!
+interface GigabitEthernet0/0.20
+ description **Gateway VLAN 20 - TI**
+ encapsulation dot1Q 20
+ ip address 200.18.40.193 255.255.255.248
+ ip helper-address 200.18.40.206
+!
+interface GigabitEthernet0/0.99
+ description **Gateway REAL da VLAN 99 - Gerencia/SRV**
+ encapsulation dot1Q 99 native
+ ip address 200.18.40.201 255.255.255.248
+ ip helper-address 200.18.40.206
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Serial0/0/0
+ description **Link-WAN-FR-Cloud**
+ no ip address
+ encapsulation frame-relay
+ clock rate 2000000
+!
+interface Serial0/0/0.102 point-to-point
+ description **Link p/ R-MATRIZ | DLCI 102**
+ ip address 200.18.40.222 255.255.255.252
+ frame-relay interface-dlci 102
+ clock rate 2000000
+!
+interface Serial0/0/1
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+ version 2
+ network 200.18.40.0
+ no auto-summary
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+banner motd #
+************************************************************
+* *
+* ATENCAO: Este sistema e de uso restrito.               *
+* Acesso nao autorizado e proibido e sera monitorado.    *
+* *
+************************************************************
+#
+!
+!
+!
+!
+line con 0
+ password <REMOVIDO>
+ login
+!
+line aux 0
+!
+line vty 0 4
+ password <REMOVIDO>
+ login
+line vty 5 15
+ password <REMOVIDO>
+ login
+!
+!
+!
+end
+

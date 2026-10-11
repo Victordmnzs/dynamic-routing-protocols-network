@@ -1,0 +1,168 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname R-M
+!
+!
+!
+enable secret 5 <REMOVIDO>
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX1524M56I-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description **TRUNK p/ SW-CORE-MATRIZ**
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.10
+ description **Gateway VLAN 10 - Usuarios**
+ encapsulation dot1Q 10
+ ip address 200.18.40.1 255.255.255.192
+ ip helper-address 200.18.40.174
+!
+interface GigabitEthernet0/0.20
+ description **Gateway VLAN 20 - TI**
+ encapsulation dot1Q 20
+ ip address 200.18.40.129 255.255.255.224
+ ip helper-address 200.18.40.174
+!
+interface GigabitEthernet0/0.30
+ description **Gateway VLAN 30 - Servicos/Web**
+ encapsulation dot1Q 30
+ ip address 200.18.40.161 255.255.255.240
+!
+interface GigabitEthernet0/0.99
+ description **Gateway VLAN 99 - Gerencia**
+ encapsulation dot1Q 99 native
+ ip address 200.18.40.177 255.255.255.248
+ ip helper-address 200.18.40.174
+!
+interface GigabitEthernet0/1
+ description **Link p/ ISP (BGP)**
+ ip address 200.18.40.225 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1.10
+ no ip address
+!
+interface Serial0/0/0
+ description **Link-WAN-FR-Cloud**
+ no ip address
+ encapsulation frame-relay
+ clock rate 2000000
+!
+interface Serial0/0/0.101 point-to-point
+ description **Link p/ R-A (Filial 1) | DLCI 101**
+ ip address 200.18.40.217 255.255.255.252
+ frame-relay interface-dlci 101
+ clock rate 2000000
+!
+interface Serial0/0/0.102 point-to-point
+ description **Link p/ R-B (Filial 2) | DLCI 102**
+ ip address 200.18.40.221 255.255.255.252
+ frame-relay interface-dlci 102
+ clock rate 2000000
+!
+interface Serial0/0/1
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 2.2.2.2
+ log-adjacency-changes
+ redistribute rip subnets 
+ network 200.18.40.0 0.0.0.63 area 0
+ network 200.18.40.128 0.0.0.31 area 0
+ network 200.18.40.160 0.0.0.15 area 0
+ network 200.18.40.176 0.0.0.7 area 0
+ network 200.18.40.216 0.0.0.3 area 0
+!
+router bgp 40
+ bgp router-id 2.2.2.2
+ bgp log-neighbor-changes
+ no synchronization
+ neighbor 200.18.40.226 remote-as 65000
+ neighbor 200.18.40.226 next-hop-self 
+ network 200.18.40.0
+!
+router rip
+ version 2
+ redistribute ospf 1 metric 1 
+ network 200.18.40.0
+ no auto-summary
+!
+ip classless
+ip route 200.18.40.0 255.255.255.0 Null0 
+!
+ip flow-export version 9
+!
+!
+!
+banner motd #
+************************************************************
+* *
+* ATENCAO: Este sistema e de uso restrito.               *
+* Acesso nao autorizado e proibido e sera monitorado.    *
+* *
+************************************************************
+#
+!
+!
+!
+!
+line con 0
+ password <REMOVIDO>
+ login
+!
+line aux 0
+!
+line vty 0 4
+ password <REMOVIDO>
+ login
+line vty 5 15
+ password <REMOVIDO>
+ login
+!
+!
+!
+end
+
